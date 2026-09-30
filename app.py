@@ -1,14 +1,14 @@
 """
-Loja de produtos pet (estilo drop shipping) - rotas do aplicativo.
+Loja de produtos pet estilo drop shipping) - rotas do aplicativo.
 
-Como rodar:
+Como rodar
     pip install -r requirements.txt
     python app.py
 Depois abra http://127.0.0.1:5000
 
 Banco de dados: por enquanto tudo fica em arquivos .json dentro de
 data/ (veja data_store.py). Quando o banco de dados de verdade for
-criado, só é preciso trocar as funções de data_store.py.
+criado só é preciso trocar as funções de data_store.py.
 """
 import os
 import unicodedata
