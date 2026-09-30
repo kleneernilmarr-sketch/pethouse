@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block titulo %}Carrinho{% endblock %}
+{% block pagina %}carrinho{% endblock %}
+{% block conteudo %}
+  <section class="secao">
+    <h1>Seu carrinho</h1>
+
+    {% if not itens %}
+      <div class="vazio">
+        Seu carrinho está vazio. <a href="{{ url_for('produtos') }}">Ver produtos</a>
+      </div>
+    {% else %}
+      <div class="carrinho-layout">
+        <div>
+          {% for item in itens %}
+            <div class="linha-carrinho">
+              <span class="carrinho-item-emoji">{{ item.produto.emoji }}</span>
+              <span class="nome">{{ item.produto.nome }}</span>
+              <form action="{{ url_for('carrinho_atualizar', produto_id=item.produto.id) }}" method="post">
+                {# data-auto-submit: o scripts.js envia o formulário ao mudar a quantidade #}
+                <input type="number" name="quantidade" value="{{ item.quantidade }}" min="0" data-auto-submit>
+              </form>
+              <span>{{ item.subtotal | brl }}</span>
+              <form action="{{ url_for('carrinho_remover', produto_id=item.produto.id) }}" method="post">
+                <button type="submit" class="btn btn-contorno btn-pequeno">Remover</button>
+              </form>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="resumo-carrinho">
+          <h2>Resumo</h2>
+          <div class="resumo-linha"><span>Subtotal</span><span>{{ subtotal | brl }}</span></div>
+          <div class="resumo-linha"><span>Frete</span><span>{{ "Grátis" if frete == 0 else (frete | brl) }}</span></div>
+          <div class="resumo-linha total"><span>Total</span><span>{{ total | brl }}</span></div>
+          <a href="{{ url_for('checkout') }}" class="btn btn-sol carrinho-finalizar">
+            Finalizar compra
+          </a>
+        </div>
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}

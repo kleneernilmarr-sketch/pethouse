@@ -1,0 +1,6 @@
+Coloque aqui:
+  logo.png                 -> logo do cabeçalho (altura ideal ~68px, fundo transparente)
+  favicon.png              -> ícone da aba (64x64 ou 128x128)
+  banner-inicio.jpg        -> foto da abertura da home (~900x600)
+  video-institucional-capa.jpg -> capa do vídeo da home (16:9, ex.: 1280x720)
+Os nomes são definidos em MIDIA_SITE no app.py.

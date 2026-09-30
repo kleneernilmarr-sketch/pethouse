@@ -1,0 +1,38 @@
+Anotações do grupo — PetHouse
+
+Telas Funcionando (Revisar)
+Inicio
+Produtos
+Perfil de Cliente
+Tela de Agendamento de Serviços para Pet
+Tela de orçamento personalizado
+Tela de Feedback
+Carrinho de vendas
+Tela de Fornecedores
+
+Necessidade de incremento:
++ Blog (Informações de pet, dicas, e fofocas)
+Tela de perfil do pet (Adicionar foto do próprio Pet)
+
+Observações:
+- Precisa ser feito o banco de dados para substituição do armazenamento em JSON.
+- Precisa ser adicionado banco de imagens para nutrir o site pois está armazenado localmente.
+- Fazer repositório do github
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

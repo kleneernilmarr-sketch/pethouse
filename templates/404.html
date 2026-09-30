@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block titulo %}Página não encontrada{% endblock %}
+{% block pagina %}404{% endblock %}
+{% block conteudo %}
+  <div class="vazio">
+    <h1>404</h1>
+    <p>Essa página fugiu para passear. <a href="{{ url_for('inicio') }}">Voltar para o início</a></p>
+  </div>
+{% endblock %}

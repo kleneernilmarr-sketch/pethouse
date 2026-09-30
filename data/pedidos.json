@@ -1,0 +1,22 @@
+[
+  {
+    "cliente_id": 1,
+    "itens": [
+      {
+        "produto_id": 4,
+        "nome": "Peitoral anti-puxão ajustável",
+        "preco_unitario": 59.9,
+        "quantidade": 1
+      }
+    ],
+    "endereco_entrega": "R. Alfredo Pimenta, 97, São Paulo/SP - CEP 03583-140",
+    "transportadora_id": 2,
+    "forma_pagamento": "Boleto",
+    "status": "Novo",
+    "subtotal": 59.9,
+    "frete": 24.9,
+    "total": 84.8,
+    "data": "2026-09-29",
+    "id": 1
+  }
+]

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block titulo %}Nossos fornecedores{% endblock %}
+{% block pagina %}fornecedores{% endblock %}
+{% block conteudo %}
+<section class="secao">
+  <div class="fornecedores-hero">
+    <h1>De onde vêm os nossos produtos</h1>
+    <p>Trabalhamos só com fornecedores que garantem procedência, testes de qualidade e prazos confiáveis.</p>
+  </div>
+
+  {% if fornecedores %}
+    <div class="fornecedores-grid">
+      {% for f in fornecedores %}
+        <div class="fornecedor-card">
+          <div class="fornecedor-foto">
+            {# Foto: static/assets/imagens/fornecedores/
+               Padrão: fornecedor-<id>.jpg  (ou o nome digitado em /admin/fornecedores > "Foto / logo") #}
+            {% set foto = imagem_url('fornecedores', f.imagem or ('fornecedor-' ~ f.id ~ '.jpg')) %}
+            {% if foto %}
+              <img src="{{ foto }}" alt="Logo ou fábrica de {{ f.nome }}" loading="lazy">
+            {% else %}
+              <span class="placeholder">Foto de {{ f.nome }}</span>
+            {% endif %}
+          </div>
+
+          <div class="fornecedor-corpo">
+            <div class="fornecedor-topo">
+              <h3>{{ f.nome }}</h3>
+              {% if f.anos_mercado %}<span class="selo-anos">{{ f.anos_mercado }}</span>{% endif %}
+            </div>
+
+            {% if f.certificacoes %}
+              <span class="tag-certificacao">{{ f.certificacoes }}</span>
+            {% endif %}
+
+            <p class="fornecedor-desc">
+              {{ f.descricao_qualidade or 'Fornecedor parceiro do PetHouse.' }}
+            </p>
+
+            <div class="fornecedor-meta">
+              {% if f.produtos_fornecidos %}
+                <div><strong>Linha de produtos:</strong> {{ f.produtos_fornecidos }}</div>
+              {% endif %}
+              {% if f.prazo_entrega_dias %}
+                <div><strong>Prazo médio de reposição:</strong> {{ f.prazo_entrega_dias }} dias</div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="vazio">Nenhum fornecedor cadastrado ainda.</div>
+  {% endif %}
+</section>
+{% endblock %}

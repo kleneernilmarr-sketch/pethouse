@@ -1,0 +1,3 @@
+Fotos dos produtos (JPG/PNG/WEBP, ideal 800x800, até ~300 KB).
+Nomes padrão: produto-01.jpg ... produto-12.jpg
+Os nomes são definidos em MIDIA_PRODUTOS no app.py.

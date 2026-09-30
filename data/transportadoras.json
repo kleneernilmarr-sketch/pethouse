@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "nome": "Correios",
+    "cnpj": "34.028.316/0001-89",
+    "telefone": "0800 725 7282",
+    "email": "atendimento@correios.com.br",
+    "regioes_atendidas": "Todo o Brasil",
+    "prazo_medio_dias": 10,
+    "valor_frete_base": 19.90
+  },
+  {
+    "id": 2,
+    "nome": "Jadlog",
+    "cnpj": "04.884.082/0001-35",
+    "telefone": "5511987654321",
+    "email": "sac@jadlog.com.br",
+    "regioes_atendidas": "Sudeste e Sul",
+    "prazo_medio_dias": 6,
+    "valor_frete_base": 24.90
+  }
+]

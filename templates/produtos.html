@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% from "_card.html" import card with context %}
+
+{% block titulo %}{{ titulo }}{% endblock %}
+{% block pagina %}produtos{% endblock %}
+
+{% block conteudo %}
+  <section class="secao">
+    <div class="secao-cabecalho">
+      <h1>{{ titulo }}</h1>
+      <span>{{ produtos | length }} produto{{ 's' if produtos | length != 1 }}</span>
+    </div>
+
+    {% if produtos %}
+      <div class="grade-produtos">
+        {% for p in produtos %}
+          {{ card(p) }}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="vazio">
+        {% if termo is defined and termo %}
+          Nenhum produto encontrado para “{{ termo }}”.
+        {% else %}
+          Nenhum produto encontrado por aqui ainda.
+        {% endif %}
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}

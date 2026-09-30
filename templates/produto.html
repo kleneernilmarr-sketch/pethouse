@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% from "_card.html" import card with context %}
+
+{% block titulo %}{{ p.nome }}{% endblock %}
+{% block pagina %}produto{% endblock %}
+
+{% block conteudo %}
+  <div class="produto-detalhe">
+    {# Fotos: static/assets/imagens/produtos/  |  Vídeos: static/assets/videos/produtos/
+       Os nomes dos arquivos ficam em MIDIA_PRODUTOS no app.py. #}
+    {% set foto = imagem_url('produtos', p.imagem) %}
+    {% set video = video_url('produtos', p.video) %}
+    <div class="produto-midia">
+      <div class="produto-imagem-grande" style="--cor: {{ p.cor }}">
+        {% if foto %}<img src="{{ foto }}" alt="{{ p.nome }}">{% else %}{{ p.emoji }}{% endif %}
+      </div>
+      {% if video %}
+        <video class="produto-video" controls preload="metadata" playsinline{% if foto %} poster="{{ foto }}"{% endif %}>
+          <source src="{{ video }}" type="video/mp4">
+          Seu navegador não suporta vídeo.
+        </video>
+      {% endif %}
+    </div>
+
+    <div>
+      <span class="categoria-qtd">{{ p.categoria_nome }}</span>
+      <h1>{{ p.nome }}</h1>
+      <p>{{ p.descricao }}</p>
+
+      <div class="card-produto-precos produto-precos">
+        <span class="preco-atual produto-preco-grande">{{ p.preco | brl }}</span>
+        {% if p.preco_antigo %}<span class="preco-antigo">{{ p.preco_antigo | brl }}</span>{% endif %}
+        {% if p.desconto %}<span class="badge-desconto">-{{ p.desconto }}%</span>{% endif %}
+      </div>
+
+      <form class="produto-form-compra" action="{{ url_for('carrinho_adicionar', produto_id=p.id) }}" method="post">
+        <input class="produto-qtd" type="number" name="quantidade" value="1" min="1">
+        <button type="submit" class="btn btn-sol">Adicionar ao carrinho</button>
+      </form>
+
+      <p class="produto-info-extra">
+        Em até {{ loja.parcelas }}x sem juros · Entrega em {{ loja.prazo_entrega }}
+      </p>
+    </div>
+  </div>
+
+  {% if relacionados %}
+    <section class="secao">
+      <div class="secao-cabecalho"><h2>Você também pode gostar</h2></div>
+      <div class="grade-produtos">
+        {% for r in relacionados %}{{ card(r) }}{% endfor %}
+      </div>
+    </section>
+  {% endif %}
+{% endblock %}

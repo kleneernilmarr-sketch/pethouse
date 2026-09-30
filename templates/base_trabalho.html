@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block titulo %}{% endblock %} · {{ loja.nome }}</title>
+  {% if midia.favicon %}<link rel="icon" href="{{ midia.favicon }}">{% endif %}
+  {# Base das páginas do TRABALHO (index.html e documentacao.html): cabeçalho simples, sem carrinho/busca da loja. CSS: [S25] #}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body data-pagina="{% block pagina %}trabalho{% endblock %}">
+
+  <header class="cabecalho">
+    <div class="cabecalho-interno">
+      <a class="marca" href="{{ url_for('apresentacao') }}">Pet<span>House</span></a>
+      <nav class="nav-principal">
+        <a href="{{ url_for('apresentacao') }}">Apresentação</a>
+        <a href="{{ url_for('documentacao') }}">Documentação</a>
+      </nav>
+      <a class="btn btn-sol btn-pequeno" href="{{ url_for('inicio') }}">Acessar Site</a>
+    </div>
+  </header>
+
+  <main>
+    {% block conteudo %}{% endblock %}
+  </main>
+
+  <footer class="rodape">
+    <div class="wrap">
+      <div>
+        <strong>{{ loja.nome }}</strong> · trabalho de {{ trabalho.disciplina }}<br>
+        {{ trabalho.curso }} · {{ trabalho.instituicao }}
+      </div>
+      <div>Professor(a): {{ trabalho.professor }} · {{ trabalho.turma }}</div>
+      <div>&copy; {{ ano }} {{ loja.nome }}</div>
+    </div>
+  </footer>
+
+</body>
+</html>

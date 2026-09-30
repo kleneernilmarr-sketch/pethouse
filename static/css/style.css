@@ -1,0 +1,716 @@
+/* ==========================================================================
+   PETHOUSE - style.css (ÚNICO arquivo de CSS do site)
+   ==========================================================================
+
+   COMO ENCONTRAR AS COISAS
+   Procure (Ctrl+F) pelo código da seção, por exemplo:  [S05]  ou  produto.html
+
+   ÍNDICE
+   --------------------------------------------------------------------------
+   [S00]  Variáveis (cores, raios, sombra) e reset
+   [S01]  COMPONENTES COMPARTILHADOS (usados por várias páginas)
+            1.1  Tipografia e layout base
+            1.2  Botões
+            1.3  Formulários (.form-caixa, .campo)
+            1.4  Tabelas (.tabela-admin)
+            1.5  Blocos "categoria" (cards coloridos)
+            1.6  Card de produto (_card.html)
+            1.7  Linhas de carrinho e resumo (.linha-carrinho, .resumo-*)
+            1.8  Painel-card
+            1.9  Tags de status e utilidades
+   [S02]  base.html ................ cabeçalho, mensagens, rodapé (todas as páginas)
+   [S03]  inicio.html
+   [S04]  produtos.html
+   [S05]  produto.html
+   [S06]  carrinho.html
+   [S07]  checkout.html
+   [S08]  pedido_confirmacao.html
+   [S09]  cliente_cadastro.html
+   [S10]  cliente_login.html
+   [S11]  cliente_perfil.html
+   [S12]  cliente_pet_novo.html
+   [S13]  pet_perfil.html
+   [S14]  agendamento_novo.html
+   [S15]  orcamento_solicitar.html
+   [S16]  feedback.html
+   [S17]  fornecedores.html
+   [S18]  contato.html
+   [S19]  404.html
+   [S20]  admin/painel.html
+   [S21]  admin/lista.html
+   [S22]  admin/form.html
+   [S23]  admin/estoque_lista.html
+   [S24]  admin/feedbacks.html
+   [S25]  base_trabalho.html + index.html (apresentação do trabalho)
+   [S26]  documentacao.html
+
+   REGRAS DE OURO PARA MANTER ISSO ORGANIZADO
+   1) Estilo que só existe numa página -> vai na seção dessa página.
+      As classes dela começam com o nome da página (ex.: .produto-..., .perfil-...).
+   2) Estilo usado em 2 ou mais páginas -> vai em [S01] e leva um
+      comentário "Usado em:" listando as páginas.
+   3) As seções de páginas vêm DEPOIS de [S01]; assim, se duas regras tiverem
+      o mesmo peso, a da página ganha.
+   4) Nenhum HTML tem CSS embutido, exceto valores que vêm do Python e
+      mudam a cada item (ex.: style="--cor: ..." e a largura da barra de
+      progresso). Esses casos estão marcados em cada seção.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   [S00] VARIÁVEIS E RESET
+   Para mudar as cores do site inteiro, altere só os valores abaixo.
+   ========================================================================== */
+:root {
+  --tinta: #2E2A26;          /* texto principal */
+  --tinta-suave: #6B6259;    /* texto secundário */
+  --fundo: #FFFBF5;          /* fundo da página */
+  --painel: #FFFFFF;         /* fundo de cards e caixas */
+  --linha: #EFE7DA;          /* bordas e divisórias */
+  --sol: #FF8A5B;            /* cor de destaque (laranja) */
+  --sol-escuro: #E8703F;     /* laranja escuro (hover, preços) */
+  --folha: #4C9A7B;          /* verde (descontos, sucesso) */
+  --raio: 14px;
+  --raio-pequeno: 8px;
+  --sombra: 0 6px 20px rgba(46, 42, 38, 0.08);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Nunito", "Segoe UI", Roboto, sans-serif;
+  background: var(--fundo);
+  color: var(--tinta);
+  line-height: 1.5;
+}
+
+
+/* ==========================================================================
+   [S01] COMPONENTES COMPARTILHADOS
+   Tudo o que está nesta seção é usado por mais de uma página.
+   ========================================================================== */
+
+/* ---------- 1.1 Tipografia e layout base ----------
+   Usado em: todas as páginas */
+h1, h2, h3 { font-family: "Fredoka", "Nunito", sans-serif; margin: 0 0 0.4em; }
+h1 { font-size: 2.1rem; }
+h2 { font-size: 1.4rem; }
+a { color: inherit; text-decoration: none; }
+p { margin: 0 0 1em; color: var(--tinta-suave); }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+/* Seção padrão (largura máxima + respiro).
+   Usado em: quase todas as páginas */
+.secao { max-width: 1120px; margin: 0 auto; padding: 40px 24px; }
+.secao-cabecalho { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px; }
+.link-secao { font-weight: 700; color: var(--sol-escuro); }
+
+/* ---------- 1.2 Botões ----------
+   Usado em: todas as páginas */
+.btn {
+  display: inline-block; padding: 11px 20px; border-radius: 999px; font-weight: 700;
+  border: none; cursor: pointer; font-size: 0.95rem;
+}
+.btn-sol { background: var(--sol); color: white; }
+.btn-sol:hover { background: var(--sol-escuro); }
+.btn-contorno { background: transparent; border: 2px solid var(--tinta); color: var(--tinta); }
+.btn-folha { background: var(--folha); color: white; }
+.btn-perigo { background: #C24545; color: white; }
+.btn-pequeno { padding: 6px 14px; font-size: 0.82rem; }
+.btn-bloco { width: 100%; }   /* botão ocupando toda a largura (formulários) */
+
+/* ---------- 1.3 Formulários ----------
+   Usado em: cliente_cadastro, cliente_login, cliente_pet_novo, agendamento_novo,
+             orcamento_solicitar, feedback, contato, checkout, admin/form */
+.form-caixa { max-width: 560px; margin: 40px auto; background: var(--painel); border-radius: var(--raio);
+  box-shadow: var(--sombra); padding: 32px; }
+.campo { margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; }
+.campo label { font-weight: 700; font-size: 0.88rem; }
+.campo input, .campo select, .campo textarea {
+  border: 1px solid var(--linha); border-radius: var(--raio-pequeno); padding: 10px 12px; font-size: 0.95rem;
+  font-family: inherit; background: var(--fundo);
+}
+.campo textarea { min-height: 90px; resize: vertical; }
+.campo-ajuda { font-size: 0.78rem; color: var(--tinta-suave); }
+.linha-formulario { display: flex; gap: 14px; }
+.linha-formulario .campo { flex: 1; }
+
+/* Link de rodapé de formulário ("Já tem conta? Entrar").
+   Usado em: cliente_cadastro, cliente_login */
+.form-rodape { margin-top: 14px; font-size: 0.88rem; }
+
+@media (max-width: 780px) {
+  .linha-formulario { flex-direction: column; }
+}
+
+/* ---------- 1.4 Tabelas ----------
+   Usado em: admin/lista, admin/estoque_lista, admin/feedbacks,
+             cliente_perfil, pet_perfil */
+.tabela-admin { width: 100%; border-collapse: collapse; background: var(--painel); border-radius: var(--raio);
+  overflow: hidden; box-shadow: var(--sombra); }
+.tabela-admin th, .tabela-admin td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--linha); font-size: 0.9rem; }
+.tabela-admin th { background: var(--fundo); font-weight: 700; }
+.tabela-admin tr:last-child td { border-bottom: none; }
+.acoes-linha { display: flex; gap: 8px; }
+
+/* ---------- 1.5 Blocos "categoria" (cards coloridos) ----------
+   Usado em: inicio (categorias + "por que comprar"), cliente_perfil (pets),
+             feedback (grade das avaliações), produto (.categoria-qtd) */
+.categorias { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; }
+.categoria {
+  background: var(--cor, var(--painel)); border-radius: var(--raio); padding: 20px;
+  display: flex; flex-direction: column; gap: 4px; transition: transform 0.15s ease;
+}
+.categoria:hover { transform: translateY(-3px); }
+.categoria-emoji { font-size: 1.8rem; }
+.categoria-nome { font-weight: 700; }
+.categoria-qtd { font-size: 0.82rem; color: var(--tinta-suave); }
+/* ATENÇÃO: a cor de cada categoria vem do Python, por isso nos HTMLs existe
+   style="--cor: ..." (valor dinâmico, único CSS que fica dentro do HTML). */
+
+/* ---------- 1.6 Card de produto (_card.html) ----------
+   Usado em: inicio, produtos (e categoria/ofertas/busca), produto (relacionados) */
+.grade-produtos { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; }
+.card-produto {
+  background: var(--painel); border-radius: var(--raio); box-shadow: var(--sombra);
+  overflow: hidden; display: flex; flex-direction: column;
+}
+.card-produto-imagem {
+  height: 150px; display: flex; align-items: center; justify-content: center;
+  font-size: 3rem; background: var(--cor, var(--linha));
+}
+.card-produto-imagem img { width: 100%; height: 100%; object-fit: cover; }
+.card-produto-corpo { padding: 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.card-produto-nome { font-weight: 700; font-size: 0.95rem; }
+.card-produto-precos { display: flex; align-items: baseline; gap: 8px; margin-top: auto; }
+.preco-atual { font-weight: 800; font-size: 1.15rem; color: var(--sol-escuro); }
+.preco-antigo { text-decoration: line-through; color: var(--tinta-suave); font-size: 0.85rem; }
+.badge-desconto {
+  background: var(--folha); color: white; font-size: 0.72rem; font-weight: 700;
+  padding: 2px 8px; border-radius: 999px; width: fit-content;
+}
+.card-produto-acoes { display: flex; gap: 8px; padding: 0 16px 16px; }
+.card-produto-acoes form { flex: 1; }
+.card-produto-acoes .btn { width: 100%; text-align: center; }
+
+/* ---------- 1.7 Linhas de carrinho e resumo ----------
+   Usado em: carrinho, checkout, pedido_confirmacao, pet_perfil (.resumo-carrinho),
+             cliente_perfil e admin/feedbacks (.linha-carrinho como "cartão") */
+.linha-carrinho { display: flex; align-items: center; gap: 16px; background: var(--painel);
+  border-radius: var(--raio); box-shadow: var(--sombra); padding: 14px 18px; margin-bottom: 12px; }
+.linha-carrinho .nome { flex: 1; font-weight: 700; }
+.linha-carrinho input[type="number"] { width: 64px; padding: 6px; border-radius: var(--raio-pequeno); border: 1px solid var(--linha); }
+.resumo-carrinho { background: var(--painel); border-radius: var(--raio); box-shadow: var(--sombra); padding: 22px; }
+.resumo-linha { display: flex; justify-content: space-between; padding: 6px 0; font-size: 0.92rem; }
+.resumo-linha.total { font-weight: 800; font-size: 1.1rem; border-top: 1px solid var(--linha); margin-top: 8px; padding-top: 12px; }
+
+/* ---------- 1.8 Painel-card ----------
+   Usado em: admin/painel, feedback (cartões de avaliação) */
+.painel-card { background: var(--painel); border-radius: var(--raio); box-shadow: var(--sombra); padding: 22px; }
+.painel-card h3 { margin-bottom: 6px; }
+
+/* ---------- 1.9 Tags de status e utilidades ----------
+   Usado em: cliente_perfil, pedido_confirmacao, pet_perfil, admin/* */
+.vazio { text-align: center; padding: 60px 20px; color: var(--tinta-suave); }
+.tag-status { padding: 3px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; background: var(--linha); }
+.tag-esgotado { background: #FBE7E5; color: #B23B32; }
+.tag-baixo { background: #FFF3D9; color: #92650F; }
+.tag-ok { background: #E3F3EA; color: #2F7A4F; }
+
+
+/* ==========================================================================
+   [S02] base.html  -  cabeçalho, mensagens (flash) e rodapé
+   Aparece em TODAS as páginas.
+   ========================================================================== */
+
+/* ---------- Cabeçalho ---------- */
+.cabecalho {
+  background: var(--painel);
+  border-bottom: 1px solid var(--linha);
+  position: sticky; top: 0; z-index: 10;
+}
+.cabecalho-interno {
+  display: flex; align-items: center; gap: 24px;
+  padding: 14px 24px; max-width: 1120px; margin: 0 auto;
+}
+.marca { font-family: "Fredoka", sans-serif; font-size: 1.3rem; font-weight: 700; white-space: nowrap; }
+.marca span { color: var(--sol-escuro); }
+.marca-logo { display: block; height: 34px; width: auto; }   /* logo em imagem (static/assets/imagens/site/logo.png) */
+.nav-principal { display: flex; gap: 18px; flex: 1; flex-wrap: wrap; font-weight: 600; font-size: 0.95rem; }
+.nav-principal a:hover { color: var(--sol-escuro); }
+.busca-topo { display: flex; }
+.busca-topo input {
+  border: 1px solid var(--linha); border-radius: var(--raio-pequeno) 0 0 var(--raio-pequeno);
+  padding: 8px 12px; font-size: 0.9rem; width: 180px;
+}
+.busca-topo button {
+  border: none; background: var(--sol); color: white; padding: 0 14px;
+  border-radius: 0 var(--raio-pequeno) var(--raio-pequeno) 0; cursor: pointer;
+}
+.nav-conta { display: flex; align-items: center; gap: 14px; font-weight: 600; font-size: 0.9rem; white-space: nowrap; }
+.carrinho-link { position: relative; }
+.carrinho-badge {
+  position: absolute; top: -8px; right: -14px; background: var(--sol-escuro); color: white;
+  font-size: 0.7rem; padding: 1px 6px; border-radius: 10px;
+}
+
+/* ---------- Mensagens (flash) ---------- */
+.mensagens { max-width: 1120px; margin: 14px auto 0; padding: 0 24px; }
+.mensagem {
+  padding: 10px 16px; border-radius: var(--raio-pequeno); margin-bottom: 8px; font-weight: 600; font-size: 0.9rem;
+}
+.mensagem-sucesso { background: #E3F3EA; color: #2F7A4F; }
+.mensagem-erro { background: #FBE7E5; color: #B23B32; }
+.mensagem-aviso { background: #FFF3D9; color: #92650F; }
+
+/* ---------- Rodapé ---------- */
+.rodape { background: var(--tinta); color: #EDE6DC; margin-top: 60px; padding: 36px 24px; font-size: 0.88rem; }
+.rodape .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+.rodape a { opacity: 0.85; }
+.rodape a:hover { opacity: 1; }
+
+/* ---------- Responsivo (cabeçalho) ---------- */
+@media (max-width: 780px) {
+  .cabecalho-interno { flex-wrap: wrap; }
+  .nav-principal { order: 3; width: 100%; }
+}
+
+
+/* ==========================================================================
+   [S03] inicio.html  -  página inicial
+   ========================================================================== */
+
+/* Abertura (título + benefícios) */
+.abertura {
+  max-width: 1120px; margin: 0 auto; padding: 56px 24px 30px;
+  display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items: center;
+}
+.abertura-texto h1 { max-width: 12ch; }
+.abertura-lateral { display: flex; flex-direction: column; gap: 18px; }
+.abertura-banner {                                   /* foto: static/assets/imagens/site/banner-inicio.jpg */
+  width: 100%; max-height: 260px; object-fit: cover;
+  border-radius: var(--raio); box-shadow: var(--sombra);
+}
+.abertura-beneficios { list-style: none; margin: 0; padding: 22px; background: var(--painel);
+  border-radius: var(--raio); box-shadow: var(--sombra); }
+.abertura-beneficios li { padding: 8px 0; font-weight: 600; font-size: 0.95rem; }
+
+/* Vídeo institucional (só aparece se o arquivo existir) */
+.inicio-video { padding-top: 10px; padding-bottom: 10px; }
+.inicio-video video {                                /* vídeo: static/assets/videos/site/video-institucional.mp4 */
+  display: block; width: 100%; max-height: 520px; background: #000;
+  border-radius: var(--raio); box-shadow: var(--sombra);
+}
+
+/* Cards "Por que comprar no PetHouse" (cores fixas de cada card) */
+.inicio-motivo--1 { --cor: #FFE3B8; }
+.inicio-motivo--2 { --cor: #D7E4FF; }
+.inicio-motivo--3 { --cor: #CFF1E6; }
+.inicio-motivo--4 { --cor: #FFD3D0; }
+
+@media (max-width: 780px) {
+  .abertura { grid-template-columns: 1fr; }
+}
+
+
+/* ==========================================================================
+   [S04] produtos.html  -  lista de produtos (também usada por categoria, ofertas e busca)
+   Não tem CSS próprio: usa a grade e os cards de [S01] 1.6.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   [S05] produto.html  -  página de um produto (foto, vídeo, preço, comprar)
+   ========================================================================== */
+.produto-detalhe { display: grid; grid-template-columns: 1fr 1.1fr; gap: 40px; padding: 40px 24px; max-width: 1120px; margin: 0 auto; }
+
+/* Coluna da esquerda: foto + vídeo */
+.produto-midia { display: flex; flex-direction: column; gap: 16px; }
+.produto-imagem-grande {                             /* foto: static/assets/imagens/produtos/ */
+  border-radius: var(--raio); background: var(--cor, var(--linha)); min-height: 320px;
+  display: flex; align-items: center; justify-content: center; font-size: 6rem;
+}
+.produto-imagem-grande img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--raio); }
+.produto-video {                                     /* vídeo: static/assets/videos/produtos/ */
+  display: block; width: 100%; background: #000;
+  border-radius: var(--raio); box-shadow: var(--sombra);
+}
+
+/* Coluna da direita: informações */
+.produto-precos { margin-bottom: 18px; }
+.produto-preco-grande { font-size: 1.5rem; }
+.produto-form-compra { display: flex; gap: 10px; align-items: center; }
+.produto-qtd { width: 70px; padding: 10px; border-radius: 8px; border: 1px solid var(--linha); }
+.produto-info-extra { margin-top: 18px; font-size: 0.85rem; }
+
+@media (max-width: 780px) {
+  .produto-detalhe { grid-template-columns: 1fr; }
+}
+
+
+/* ==========================================================================
+   [S06] carrinho.html
+   ========================================================================== */
+.carrinho-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 32px; align-items: start; }
+.carrinho-item-emoji { font-size: 1.6rem; }
+.carrinho-finalizar { width: 100%; text-align: center; margin-top: 14px; }
+
+@media (max-width: 780px) {
+  .carrinho-layout { grid-template-columns: 1fr; }
+}
+
+
+/* ==========================================================================
+   [S07] checkout.html  -  finalizar compra
+   ========================================================================== */
+.checkout-secao { max-width: 640px; }
+.checkout-resumo { margin-bottom: 24px; }
+.checkout-form { margin: 0; }
+
+
+/* ==========================================================================
+   [S08] pedido_confirmacao.html
+   ========================================================================== */
+.pedido-secao { max-width: 640px; }
+.pedido-detalhes { margin-top: 18px; }
+
+
+/* ==========================================================================
+   [S09] cliente_cadastro.html
+   Usa apenas os componentes de formulário de [S01] 1.3.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   [S10] cliente_login.html
+   Usa apenas os componentes de formulário de [S01] 1.3.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   [S11] cliente_perfil.html  -  minha conta (fidelidade, pedidos, pets, agendamentos, tickets)
+   ========================================================================== */
+
+/* Cartão de fidelidade */
+.cartao-fidelidade {
+  display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; align-items: center;
+  background: linear-gradient(135deg, #FFE3B8, #FFD3D0);
+  border-radius: var(--raio); padding: 24px; margin-top: 18px;
+}
+.nivel-selo { background: var(--tinta); color: white; padding: 4px 14px; border-radius: 999px; font-weight: 700; font-size: 0.82rem; }
+.barra-progresso { background: rgba(255,255,255,0.6); border-radius: 999px; height: 10px; overflow: hidden; margin-top: 10px; }
+.barra-progresso div { background: var(--sol-escuro); height: 100%; border-radius: 999px; }
+/* ATENÇÃO: a largura da barra vem do Python (style="width: X%") - único CSS
+   dinâmico desta página. */
+.perfil-nivel-titulo { margin-top: 8px; }
+.perfil-fidelidade-nota { margin: 8px 0 0; font-size: 0.85rem; }
+.perfil-beneficios-titulo { font-size: 0.85rem; }
+.perfil-beneficios-lista { margin: 6px 0 0; padding-left: 18px; font-size: 0.88rem; }
+
+/* Títulos e cabeçalhos das áreas (pedidos, pets, agendamentos, tickets) */
+.perfil-titulo-secao { margin-top: 32px; }
+.perfil-cabecalho-secao { margin-top: 32px; }
+
+/* Pets */
+.perfil-pet-card { --cor: #FFF0A8; }
+
+/* Tickets de atendimento */
+.perfil-ticket { align-items: flex-start; flex-direction: column; gap: 6px; }
+.perfil-ticket-topo { display: flex; justify-content: space-between; width: 100%; }
+.perfil-ticket-data { font-size: 0.85rem; color: var(--tinta-suave); }
+.perfil-ticket-resposta { margin: 6px 0 0; }
+
+@media (max-width: 780px) {
+  .cartao-fidelidade { grid-template-columns: 1fr; }
+}
+
+
+/* ==========================================================================
+   [S12] cliente_pet_novo.html
+   Usa apenas os componentes de formulário de [S01] 1.3.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   [S13] pet_perfil.html  -  perfil do pet
+   ========================================================================== */
+.pet-secao { max-width: 720px; }
+.pet-cabecalho { display: flex; align-items: center; gap: 16px; }
+.pet-emoji { font-size: 3rem; }
+.pet-foto {                                          /* foto: static/assets/imagens/pets/ */
+  width: 84px; height: 84px; border-radius: 50%; object-fit: cover;
+  box-shadow: var(--sombra); flex-shrink: 0;
+}
+.pet-nome { margin-bottom: 0; }
+.pet-subtitulo { margin: 0; }
+.pet-resumo { margin-top: 20px; }
+.pet-titulo-historico { margin-top: 28px; }
+.pet-agendar { margin-top: 16px; display: inline-block; }
+
+
+/* ==========================================================================
+   [S14] agendamento_novo.html
+   ========================================================================== */
+.agendamento-intro { margin-bottom: 18px; }
+
+
+/* ==========================================================================
+   [S15] orcamento_solicitar.html
+   ========================================================================== */
+.orcamento-intro { margin-bottom: 18px; }
+.orcamento-nota { margin-top: 14px; font-size: 0.85rem; }
+
+
+/* ==========================================================================
+   [S16] feedback.html  -  avaliações dos clientes + formulário
+   ========================================================================== */
+.feedback-media { font-size: 1.1rem; }
+.feedback-lista { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-bottom: 36px; }
+.feedback-vazio { margin-bottom: 36px; }
+.feedback-mensagem { margin-top: 8px; }
+.feedback-autor { font-size: 0.85rem; }
+.feedback-form { margin: 0; }
+.feedback-notas { display: flex; gap: 14px; }
+/* ".campo" na frente serve para vencer as regras de ".campo label/input" de [S01] */
+.campo .feedback-nota-opcao { display: flex; align-items: center; gap: 4px; font-weight: 400; }
+.campo .feedback-nota-opcao input { width: auto; }
+
+
+/* ==========================================================================
+   [S17] fornecedores.html  -  vitrine de fornecedores
+   (antes ficava dentro de uma tag <style> no próprio HTML)
+   ========================================================================== */
+.fornecedores-hero {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 40px;
+}
+.fornecedores-hero h1 {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+.fornecedores-hero p {
+  color: #6b6b6b;
+  font-size: 1.05rem;
+}
+.fornecedores-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+.fornecedor-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+.fornecedor-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+}
+.fornecedor-foto {                                   /* foto: static/assets/imagens/fornecedores/ */
+  width: 100%;
+  height: 180px;
+  background: #f2f2f2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.fornecedor-foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.fornecedor-foto .placeholder {
+  color: #b3b3b3;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 0 16px;
+}
+.fornecedor-corpo {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+.fornecedor-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+.fornecedor-topo h3 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+.selo-anos {
+  background: #eef7ee;
+  color: #2f7a3a;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.tag-certificacao {
+  display: inline-block;
+  background: #fff3e0;
+  color: #b96b00;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  width: fit-content;
+}
+.fornecedor-desc {
+  font-size: 0.92rem;
+  color: #444;
+  line-height: 1.5;
+  margin: 0;
+}
+.fornecedor-meta {
+  font-size: 0.82rem;
+  color: #666;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  margin-top: auto;
+}
+.fornecedor-meta strong {
+  color: #222;
+}
+
+
+/* ==========================================================================
+   [S18] contato.html
+   ========================================================================== */
+.contato-mapa { border-radius: var(--raio); overflow: hidden; box-shadow: var(--sombra); }
+.contato-mapa iframe { display: block; width: 100%; height: 280px; border: 0; }
+.contato-nota { margin-top: 18px; font-size: 0.85rem; }
+
+/* Equipe do projeto (lista EQUIPE do app.py) */
+.equipe-grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+.equipe-card { background: var(--painel); border-radius: var(--raio); box-shadow: var(--sombra);
+  padding: 24px 20px; text-align: center; }
+.equipe-card h3 { margin: 12px 0 4px; font-size: 1.05rem; }
+.equipe-area { font-size: 0.88rem; margin-bottom: 12px; }
+.equipe-foto { display: block; width: 112px; height: 112px; margin: 0 auto; border-radius: 50%; object-fit: cover; }
+.equipe-foto--iniciais { display: flex; align-items: center; justify-content: center; background: #FFE3B8;
+  color: var(--sol-escuro); font-family: "Fredoka", sans-serif; font-size: 2rem; font-weight: 700; }
+.equipe-contatos { list-style: none; margin: 0; padding: 0; font-size: 0.9rem; font-weight: 600; }
+.equipe-contatos li { padding: 2px 0; }
+.equipe-contatos a { color: var(--sol-escuro); }
+.equipe-contatos a:hover { text-decoration: underline; }
+
+
+/* ==========================================================================
+   [S19] 404.html
+   Usa apenas a classe .vazio de [S01] 1.9.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   [S20] admin/painel.html  -  painel administrativo
+   ========================================================================== */
+.painel-grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
+
+
+/* ==========================================================================
+   [S21] admin/lista.html  -  lista genérica (clientes, pets, fornecedores...)
+   Usa .tabela-admin e .acoes-linha de [S01] 1.4.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   [S22] admin/form.html  -  formulário genérico de cadastro/edição
+   ========================================================================== */
+.admin-form-voltar { margin-top: 14px; }
+
+
+/* ==========================================================================
+   [S23] admin/estoque_lista.html  -  estoque
+   ========================================================================== */
+.estoque-alertas { max-width: none; padding: 0; margin: 0 0 18px; }   /* reaproveita .mensagens de [S02] */
+
+
+/* ==========================================================================
+   [S24] admin/feedbacks.html  -  moderação de feedbacks
+   ========================================================================== */
+.feedbacks-item { align-items: flex-start; flex-direction: column; gap: 8px; }
+.feedbacks-item-topo { display: flex; justify-content: space-between; width: 100%; }
+.feedbacks-item-data { font-size: 0.8rem; color: var(--tinta-suave); }
+.feedbacks-item-msg { margin: 0; }
+.feedbacks-item-acoes { display: flex; gap: 8px; }
+.feedbacks-titulo-publicados { margin-top: 28px; }
+
+
+/* ==========================================================================
+   [S25] base_trabalho.html + index.html  -  apresentação do trabalho
+   Reaproveita .cabecalho, .rodape [S02] e .categoria [S01 1.5].
+   ========================================================================== */
+.btn-grande { padding: 14px 28px; font-size: 1.05rem; }
+.trab-botoes { display: flex; flex-wrap: wrap; gap: 14px; }
+
+.trab-abertura {
+  max-width: 1120px; margin: 0 auto; padding: 64px 24px 32px;
+  display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: center;
+}
+.trab-abertura h1 { font-size: 2.8rem; line-height: 1.12; max-width: 16ch; }
+.trab-abertura-texto p { font-size: 1.1rem; max-width: 52ch; margin-bottom: 1.6em; }
+
+/* Etiqueta de coleira com os dados do trabalho */
+.trab-etiqueta { justify-self: center; width: 100%; max-width: 330px; transform: rotate(-3deg); }
+.trab-etiqueta-argola { display: block; width: 46px; height: 46px; margin: 0 auto -20px; position: relative; z-index: 1;
+  border: 7px solid var(--tinta-suave); border-radius: 50%; }
+.trab-etiqueta-corpo { background: #FFE3B8; border: 4px solid var(--sol); border-radius: 28px;
+  box-shadow: var(--sombra); padding: 40px 26px 26px; text-align: center; }
+.trab-etiqueta-emoji { display: block; font-size: 2.2rem; }
+.trab-etiqueta-corpo strong { display: block; font-family: "Fredoka", sans-serif; font-size: 1.7rem; margin-bottom: 12px; }
+.trab-etiqueta dl { margin: 0; text-align: left; }
+.trab-etiqueta dt { font-size: 0.78rem; font-weight: 700; color: var(--tinta-suave); margin-top: 8px; }
+.trab-etiqueta dd { margin: 0; font-weight: 700; }
+
+.trab-recursos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.trab-recursos .categoria:nth-child(6n+1) { --cor: #FFE3B8; }
+.trab-recursos .categoria:nth-child(6n+2) { --cor: #D7E4FF; }
+.trab-recursos .categoria:nth-child(6n+3) { --cor: #CFF1E6; }
+.trab-recursos .categoria:nth-child(6n+4) { --cor: #FFD3D0; }
+.trab-recursos .categoria:nth-child(6n+5) { --cor: #E6DCFF; }
+.trab-recursos .categoria:nth-child(6n)   { --cor: #FFF0A8; }
+.trab-recursos .categoria-qtd { font-size: 0.9rem; }
+
+.trab-fechamento { text-align: center; padding-top: 24px; }
+.trab-fechamento p { max-width: 60ch; margin: 0 auto 1.4em; }
+.trab-fechamento .trab-botoes { justify-content: center; }
+
+@media (max-width: 780px) {
+  .trab-abertura { grid-template-columns: 1fr; padding-top: 40px; }
+  .trab-abertura h1 { font-size: 2.2rem; }
+  .trab-recursos { grid-template-columns: 1fr; }
+}
+
+
+/* ==========================================================================
+   [S26] documentacao.html
+   ========================================================================== */
+.trab-doc { max-width: 900px; }
+.trab-doc h2 { margin-top: 1.8em; }
+.trab-doc h3 { font-size: 1.1rem; margin-top: 1.4em; }
+.trab-doc code { background: var(--linha); padding: 1px 6px; border-radius: 4px; font-size: 0.88em; }
+.doc-rolagem { overflow-x: auto; }
+.doc-tabela { width: 100%; border-collapse: collapse; background: var(--painel); border-radius: var(--raio);
+  box-shadow: var(--sombra); margin-bottom: 1em; font-size: 0.92rem; }
+.doc-tabela th, .doc-tabela td { padding: 10px 14px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--linha); }
+.doc-tabela th { background: var(--fundo); font-size: 0.85rem; }
+.doc-escolhida td { background: #E3F3EA; font-weight: 600; }
+.doc-destaque { background: var(--painel); border-left: 6px solid var(--folha); border-radius: var(--raio);
+  box-shadow: var(--sombra); padding: 8px 24px 12px; margin: 1.6em 0; }
+.doc-destaque ul { margin: 0; padding-left: 20px; color: var(--tinta-suave); }
+.doc-destaque li { margin-bottom: 6px; }
+.doc-nota { font-size: 0.85rem; margin-bottom: 1.6em; }

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block titulo %}{{ 'Novo' if novo else 'Editar' }} {{ entidade.titulo_singular | lower }}{% endblock %}
+{% block pagina %}admin-form{% endblock %}
+{% block conteudo %}
+  <section class="secao form-caixa">
+    <h1>{{ 'Novo' if novo else 'Editar' }} {{ entidade.titulo_singular | lower }}</h1>
+
+    <form method="post">
+      {% for item in campos %}
+        {% set c = item.config %}
+        <div class="campo">
+          <label for="{{ c.nome }}">{{ c.rotulo }}{% if c.obrigatorio %} *{% endif %}</label>
+
+          {% if c.tipo == 'textarea' %}
+            <textarea id="{{ c.nome }}" name="{{ c.nome }}" {% if c.obrigatorio %}required{% endif %}>{{ registro.get(c.nome, '') or '' }}</textarea>
+
+          {% elif c.tipo in ('select', 'select_ref', 'select_produto') %}
+            <select id="{{ c.nome }}" name="{{ c.nome }}" {% if c.obrigatorio %}required{% endif %}>
+              <option value="">-- Selecione --</option>
+              {% for opcao in item.opcoes %}
+                {% if opcao is string %}
+                  <option value="{{ opcao }}" {% if registro.get(c.nome) == opcao %}selected{% endif %}>{{ opcao }}</option>
+                {% else %}
+                  <option value="{{ opcao[0] }}" {% if registro.get(c.nome) == opcao[0] %}selected{% endif %}>{{ opcao[1] }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+
+          {% else %}
+            <input type="{{ c.tipo }}" id="{{ c.nome }}" name="{{ c.nome }}"
+                   value="{{ registro.get(c.nome, '') if registro.get(c.nome) is not none else '' }}"
+                   {% if c.obrigatorio %}required{% endif %}>
+          {% endif %}
+
+          {% if c.ajuda %}<span class="campo-ajuda">{{ c.ajuda }}</span>{% endif %}
+        </div>
+      {% endfor %}
+
+      <button type="submit" class="btn btn-sol btn-bloco">
+        {{ 'Cadastrar' if novo else 'Salvar alterações' }}
+      </button>
+    </form>
+
+    <p class="admin-form-voltar">
+      <a class="link-secao" href="{{ url_for('admin_lista', entidade_chave=chave) }}">← Voltar para {{ entidade.titulo | lower }}</a>
+    </p>
+  </section>
+{% endblock %}

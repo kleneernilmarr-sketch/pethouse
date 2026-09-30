@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% block titulo %}Minha conta{% endblock %}
+{% block pagina %}cliente-perfil{% endblock %}
+{% block conteudo %}
+  <section class="secao">
+    <h1>Olá, {{ cliente.nome }}</h1>
+    <p>{{ cliente.email }} {% if cliente.telefone %}· {{ cliente.telefone }}{% endif %}</p>
+
+    {# ---------- Fidelidade ---------- #}
+    <div class="cartao-fidelidade">
+      <div>
+        <span class="nivel-selo">{{ nivel.nome }}</span>
+        <h2 class="perfil-nivel-titulo">{{ cliente.pontos_fidelidade or 0 }} pontos</h2>
+        {% if proximo_nivel %}
+          {% set faltam = proximo_nivel.minimo - (cliente.pontos_fidelidade or 0) %}
+          {% set progresso = (((cliente.pontos_fidelidade or 0) - nivel.minimo) / (proximo_nivel.minimo - nivel.minimo) * 100) | round(0, 'floor') %}
+          {# style="width" é dinâmico (vem do Python) - único CSS que fica no HTML #}
+          <div class="barra-progresso"><div style="width:{{ progresso }}%;"></div></div>
+          <p class="perfil-fidelidade-nota">Faltam {{ faltam }} pontos para {{ proximo_nivel.nome }}.</p>
+        {% else %}
+          <p class="perfil-fidelidade-nota">Você está no nível máximo de fidelidade! 🎉</p>
+        {% endif %}
+      </div>
+      <div>
+        <strong class="perfil-beneficios-titulo">Seus benefícios agora:</strong>
+        <ul class="perfil-beneficios-lista">
+          {% for b in nivel.beneficios %}<li>{{ b }}</li>{% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    {# ---------- Pedidos ---------- #}
+    <h2 class="perfil-titulo-secao">Meus pedidos</h2>
+    {% if pedidos %}
+      <table class="tabela-admin">
+        <thead><tr><th>Pedido</th><th>Data</th><th>Itens</th><th>Total</th><th>Status</th></tr></thead>
+        <tbody>
+          {% for pedido in pedidos | reverse %}
+            <tr>
+              <td>#{{ pedido.id }}</td>
+              <td>{{ pedido.data }}</td>
+              <td>{{ pedido.itens | length }} produto{{ 's' if pedido.itens | length != 1 }}</td>
+              <td>{{ pedido.total | brl }}</td>
+              <td><span class="tag-status">{{ pedido.status }}</span></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>Você ainda não fez nenhum pedido.</p>
+    {% endif %}
+
+    {# ---------- Pets ---------- #}
+    <div class="secao-cabecalho perfil-cabecalho-secao">
+      <h2>Meus pets</h2>
+      <a class="link-secao" href="{{ url_for('cliente_pet_novo') }}">+ Cadastrar pet</a>
+    </div>
+    {% if pets %}
+      <div class="categorias">
+        {% for pet in pets %}
+          <a class="categoria perfil-pet-card" href="{{ url_for('pet_perfil', id=pet.id) }}">
+            <span class="categoria-emoji">{{ '🐶' if pet.especie == 'Cachorro' else ('🐱' if pet.especie == 'Gato' else '🐾') }}</span>
+            <span class="categoria-nome">{{ pet.nome }}</span>
+            <span class="categoria-qtd">{{ pet.raca or pet.especie or 'Ver perfil' }}</span>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>Nenhum pet cadastrado ainda. <a href="{{ url_for('cliente_pet_novo') }}">Cadastre o seu</a>.</p>
+    {% endif %}
+
+    {# ---------- Agendamentos ---------- #}
+    <div class="secao-cabecalho perfil-cabecalho-secao">
+      <h2>Meus agendamentos</h2>
+      <a class="link-secao" href="{{ url_for('agendamento_novo') }}">+ Agendar serviço</a>
+    </div>
+    {% if agendamentos %}
+      <table class="tabela-admin">
+        <thead><tr><th>Serviço</th><th>Pet</th><th>Data</th><th>Hora</th><th>Status</th></tr></thead>
+        <tbody>
+          {% for a in agendamentos %}
+            <tr>
+              <td>{{ a.tipo or '-' }}</td>
+              <td>{{ pets | selectattr('id', 'equalto', a.pet_id) | map(attribute='nome') | first or '-' }}</td>
+              <td>{{ a.data or '-' }}</td>
+              <td>{{ a.hora or '-' }}</td>
+              <td><span class="tag-status">{{ a.status }}</span></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>Nenhum agendamento ainda.</p>
+    {% endif %}
+
+    {# ---------- Tickets de orçamento ---------- #}
+    <div class="secao-cabecalho perfil-cabecalho-secao">
+      <h2>Meus tickets de atendimento</h2>
+      <a class="link-secao" href="{{ url_for('orcamento_solicitar') }}">+ Abrir ticket</a>
+    </div>
+    {% if tickets %}
+      {% for t in tickets | reverse %}
+        <div class="linha-carrinho perfil-ticket">
+          <div class="perfil-ticket-topo">
+            <strong>#{{ t.id }} · {{ t.assunto }}</strong>
+            <span class="tag-status">{{ t.status }}</span>
+          </div>
+          <span class="perfil-ticket-data">{{ t.data_criacao }}</span>
+          {% if t.resposta %}
+            <p class="perfil-ticket-resposta"><strong>Resposta da loja:</strong> {{ t.resposta }}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>Nenhum ticket aberto.</p>
+    {% endif %}
+  </section>
+{% endblock %}

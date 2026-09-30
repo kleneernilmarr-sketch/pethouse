@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block titulo %}Contato{% endblock %}
+{% block pagina %}contato{% endblock %}
+{% block conteudo %}
+  <section class="secao form-caixa">
+    <h1>Fale conosco</h1>
+    <p>Prefere falar direto? Chama no WhatsApp ou manda um e-mail:</p>
+    <p>
+      📱 <a href="https://wa.me/{{ loja.whatsapp }}" target="_blank" rel="noopener">WhatsApp: {{ loja.whatsapp }}</a><br>
+      ✉️ <a href="mailto:{{ loja.email }}">{{ loja.email }}</a><br>
+      📍 {{ loja.endereco }}
+    </p>
+
+    <div class="contato-mapa">
+      <iframe
+        title="Localização do {{ loja.nome }} no mapa"
+        width="100%" height="280"
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q={{ loja.endereco | urlencode }}&output=embed">
+      </iframe>
+    </div>
+
+    <p class="contato-nota">
+      Prefere resolver algo específico com a equipe (troca, garantia, parceria)?
+      <a href="{{ url_for('orcamento_solicitar') }}">Abra um ticket de atendimento</a>.
+    </p>
+  </section>
+
+  {# ---------- Equipe do projeto ----------
+     Os integrantes ficam na lista EQUIPE do app.py (nome, área, LinkedIn, telefone, foto).
+     Para adicionar ou remover alguém, edite lá: esta página se ajusta sozinha. #}
+  <section class="secao" aria-labelledby="titulo-equipe">
+    <div class="secao-cabecalho">
+      <h2 id="titulo-equipe">Equipe do projeto</h2>
+    </div>
+    <div class="equipe-grade">
+      {% for m in equipe %}
+        <article class="equipe-card">
+          {% if m.foto_url %}
+            <img class="equipe-foto" src="{{ m.foto_url }}" alt="Foto de {{ m.nome }}">
+          {% else %}
+            <span class="equipe-foto equipe-foto--iniciais" aria-hidden="true">{{ m.nome | iniciais }}</span>
+          {% endif %}
+          <h3>{{ m.nome }}</h3>
+          <p class="equipe-area">{{ m.area }}</p>
+          <ul class="equipe-contatos">
+            {% if m.linkedin %}<li><a href="{{ m.linkedin }}" target="_blank" rel="noopener">LinkedIn</a></li>{% endif %}
+            {% if m.telefone %}<li><a href="tel:{{ m.telefone | so_digitos }}">{{ m.telefone }}</a></li>{% endif %}
+          </ul>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

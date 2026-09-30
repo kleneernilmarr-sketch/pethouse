@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "cliente_id": null,
+    "nome": "Camila R.",
+    "nota": 5,
+    "mensagem": "Comprei a cama ortopédica para o meu labrador idoso e a diferença foi enorme. Entrega rápida também!",
+    "data": "2026-08-14",
+    "aprovado": true
+  },
+  {
+    "id": 2,
+    "cliente_id": null,
+    "nome": "Rodrigo A.",
+    "nota": 4,
+    "mensagem": "Bom atendimento no WhatsApp e produtos de qualidade. Só acho que o frete podia ser um pouco mais barato.",
+    "data": "2026-09-02",
+    "aprovado": true
+  },
+  {
+    "cliente_id": null,
+    "nome": "Gustavo Polastrini",
+    "nota": 4,
+    "mensagem": "Gostei",
+    "data": "2026-09-23",
+    "aprovado": true,
+    "id": 3
+  }
+]

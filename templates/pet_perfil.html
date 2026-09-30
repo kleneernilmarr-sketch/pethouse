@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block titulo %}{{ pet.nome }}{% endblock %}
+{% block pagina %}pet-perfil{% endblock %}
+{% block conteudo %}
+  <section class="secao pet-secao">
+    {# Foto: static/assets/imagens/pets/ (padrão pet-<id>.jpg ou o nome no campo "foto" do pet) #}
+    {% set foto_pet = imagem_url('pets', pet.foto or ('pet-' ~ pet.id ~ '.jpg')) %}
+    <div class="pet-cabecalho">
+      {% if foto_pet %}
+        <img class="pet-foto" src="{{ foto_pet }}" alt="Foto de {{ pet.nome }}">
+      {% else %}
+        <span class="pet-emoji">{{ '🐶' if pet.especie == 'Cachorro' else ('🐱' if pet.especie == 'Gato' else '🐾') }}</span>
+      {% endif %}
+      <div>
+        <h1 class="pet-nome">{{ pet.nome }}</h1>
+        <p class="pet-subtitulo">{{ pet.raca or pet.especie or 'Espécie não informada' }} · Porte {{ (pet.porte or 'não informado') | lower }}</p>
+      </div>
+    </div>
+
+    <div class="resumo-carrinho pet-resumo">
+      <div class="resumo-linha"><span>Tutor(a)</span><span>{{ tutor.nome if tutor else 'Não vinculado' }}</span></div>
+      <div class="resumo-linha"><span>Data de nascimento</span><span>{{ pet.data_nascimento or '-' }}</span></div>
+      <div class="resumo-linha"><span>Observações</span><span>{{ pet.observacoes or '-' }}</span></div>
+    </div>
+
+    <h2 class="pet-titulo-historico">Histórico de serviços</h2>
+    {% if historico %}
+      <table class="tabela-admin">
+        <thead><tr><th>Serviço</th><th>Data</th><th>Hora</th><th>Status</th></tr></thead>
+        <tbody>
+          {% for a in historico %}
+            <tr>
+              <td>{{ a.tipo or '-' }}</td>
+              <td>{{ a.data or '-' }}</td>
+              <td>{{ a.hora or '-' }}</td>
+              <td><span class="tag-status">{{ a.status }}</span></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>Nenhum serviço registrado ainda para {{ pet.nome }}.</p>
+    {% endif %}
+
+    {% if cliente_logado and tutor and cliente_logado.id == tutor.id %}
+      <a class="btn btn-sol pet-agendar" href="{{ url_for('agendamento_novo') }}">
+        Agendar serviço para {{ pet.nome }}
+      </a>
+    {% endif %}
+  </section>
+{% endblock %}

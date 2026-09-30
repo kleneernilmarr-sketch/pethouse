@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block titulo %}{{ entidade.titulo }}{% endblock %}
+{% block pagina %}admin-lista{% endblock %}
+{% block conteudo %}
+  <section class="secao">
+    <div class="secao-cabecalho">
+      <h1>{{ entidade.titulo }}</h1>
+      <a class="btn btn-sol btn-pequeno" href="{{ url_for('admin_novo', entidade_chave=chave) }}">
+        + Novo {{ entidade.titulo_singular | lower }}
+      </a>
+    </div>
+
+    <p><a class="link-secao" href="{{ url_for('admin_painel') }}">← Voltar ao painel</a></p>
+
+    {% if linhas %}
+      <table class="tabela-admin">
+        <thead>
+          <tr>
+            {% for coluna in entidade.colunas_lista %}
+              <th>{{ coluna.replace('_', ' ') | capitalize }}</th>
+            {% endfor %}
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for linha in linhas %}
+            <tr>
+              {% for valor in linha.valores %}
+                <td>{{ valor }}</td>
+              {% endfor %}
+              <td class="acoes-linha">
+                <a class="btn btn-contorno btn-pequeno" href="{{ url_for('admin_editar', entidade_chave=chave, id=linha.id) }}">Editar</a>
+                <form action="{{ url_for('admin_excluir', entidade_chave=chave, id=linha.id) }}" method="post"
+                      data-confirmar="Tem certeza que deseja excluir?">
+                  <button type="submit" class="btn btn-perigo btn-pequeno">Excluir</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="vazio">
+        Nenhum registro cadastrado ainda.
+        <a href="{{ url_for('admin_novo', entidade_chave=chave) }}">Cadastrar o primeiro</a>
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}

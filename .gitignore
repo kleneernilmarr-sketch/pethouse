@@ -1,0 +1,28 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+.env
+.env.*
+!.env.example
+
+*.log
+
+.vscode/
+.idea/
+
+.DS_Store
+Thumbs.db
+
+# Credenciais
+credentials/
+*credentials*
+*.key
+*.pem
+
+# Banco local
+*.db
+*.sqlite
+*.sqlite3

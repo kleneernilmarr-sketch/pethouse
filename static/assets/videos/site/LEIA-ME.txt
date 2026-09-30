@@ -1,0 +1,3 @@
+Coloque aqui:
+  video-institucional.mp4  -> vídeo da home (H.264/.mp4, até ~20 MB recomendado)
+O nome é definido em MIDIA_SITE no app.py.

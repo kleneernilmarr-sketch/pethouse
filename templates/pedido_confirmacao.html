@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block titulo %}Pedido confirmado{% endblock %}
+{% block pagina %}pedido-confirmacao{% endblock %}
+{% block conteudo %}
+  <section class="secao pedido-secao">
+    <h1>Pedido #{{ pedido.id }} confirmado 🎉</h1>
+    <p>Enviamos os detalhes para o seu e-mail. Acompanhe pelo seu perfil quando quiser.</p>
+
+    <div class="resumo-carrinho">
+      {% for item in pedido.itens %}
+        <div class="resumo-linha"><span>{{ item.quantidade }}x {{ item.nome }}</span><span>{{ (item.preco_unitario * item.quantidade) | brl }}</span></div>
+      {% endfor %}
+      <div class="resumo-linha"><span>Frete ({{ transportadora.nome if transportadora else '-' }})</span><span>{{ pedido.frete | brl }}</span></div>
+      <div class="resumo-linha total"><span>Total</span><span>{{ pedido.total | brl }}</span></div>
+    </div>
+
+    <p class="pedido-detalhes">
+      <strong>Entrega:</strong> {{ pedido.endereco_entrega }}<br>
+      <strong>Pagamento:</strong> {{ pedido.forma_pagamento }}<br>
+      <strong>Status:</strong> <span class="tag-status">{{ pedido.status }}</span>
+    </p>
+
+    <a href="{{ url_for('cliente_perfil') }}" class="btn btn-sol">Ver meus pedidos</a>
+    <a href="{{ url_for('produtos') }}" class="btn btn-contorno">Continuar comprando</a>
+  </section>
+{% endblock %}

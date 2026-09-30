@@ -1,0 +1,3 @@
+Fotos dos pets (quadradas, ideal 400x400).
+Nome padrão: pet-<id>.jpg (ex.: pet-2.jpg)
+Ou digite outro nome no campo 'Foto' em /admin/pets.

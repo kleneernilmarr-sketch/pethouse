@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block titulo %}Painel administrativo{% endblock %}
+{% block pagina %}admin-painel{% endblock %}
+{% block conteudo %}
+  <section class="secao">
+    <h1>Painel administrativo</h1>
+    <p>Gerencie os dados da loja. Por enquanto tudo é salvo em arquivos .json em <code>data/</code> — quando o banco de dados definitivo for criado, essas telas continuam funcionando sem mudar nada aqui.</p>
+
+    <div class="painel-grade">
+      {% for chave, entidade in entidades_admin.items() %}
+        <a class="painel-card" href="{{ url_for('admin_lista', entidade_chave=chave) }}">
+          <h3>{{ entidade.titulo }}</h3>
+          <span class="link-secao">Gerenciar →</span>
+        </a>
+      {% endfor %}
+      <a class="painel-card" href="{{ url_for('admin_feedbacks') }}">
+        <h3>Feedbacks {% if pendentes_feedback %}<span class="tag-status tag-baixo">{{ pendentes_feedback }} pendente{{ 's' if pendentes_feedback != 1 }}</span>{% endif %}</h3>
+        <span class="link-secao">Moderar →</span>
+      </a>
+    </div>
+  </section>
+{% endblock %}

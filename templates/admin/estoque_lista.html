@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block titulo %}Estoque{% endblock %}
+{% block pagina %}admin-estoque{% endblock %}
+{% block conteudo %}
+  <section class="secao">
+    <div class="secao-cabecalho">
+      <h1>Estoque</h1>
+      <a class="btn btn-sol btn-pequeno" href="{{ url_for('admin_novo', entidade_chave='estoque') }}">+ Novo item de estoque</a>
+    </div>
+    <p><a class="link-secao" href="{{ url_for('admin_painel') }}">← Voltar ao painel</a></p>
+
+    {% if esgotados or baixos %}
+      <div class="mensagens estoque-alertas">
+        {% if esgotados %}
+          <div class="mensagem mensagem-erro">🚫 {{ esgotados }} produto{{ 's' if esgotados != 1 }} esgotado{{ 's' if esgotados != 1 }}</div>
+        {% endif %}
+        {% if baixos %}
+          <div class="mensagem mensagem-aviso">⚠️ {{ baixos }} produto{{ 's' if baixos != 1 }} com estoque baixo</div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if linhas %}
+      <table class="tabela-admin">
+        <thead>
+          <tr><th>Produto</th><th>Quantidade</th><th>Mínimo</th><th>Localização</th><th>Status</th><th>Ações</th></tr>
+        </thead>
+        <tbody>
+          {% for l in linhas %}
+            <tr>
+              <td>{{ l.produto }}</td>
+              <td>{{ l.quantidade }}</td>
+              <td>{{ l.quantidade_minima }}</td>
+              <td>{{ l.localizacao }}</td>
+              <td>
+                {% if l.status == 'esgotado' %}
+                  <span class="tag-status tag-esgotado">Esgotado</span>
+                {% elif l.status == 'baixo' %}
+                  <span class="tag-status tag-baixo">Estoque baixo</span>
+                {% else %}
+                  <span class="tag-status tag-ok">OK</span>
+                {% endif %}
+              </td>
+              <td class="acoes-linha">
+                <a class="btn btn-contorno btn-pequeno" href="{{ url_for('admin_editar', entidade_chave='estoque', id=l.id) }}">Editar</a>
+                <form action="{{ url_for('admin_excluir', entidade_chave='estoque', id=l.id) }}" method="post"
+                      data-confirmar="Tem certeza que deseja excluir?">
+                  <button type="submit" class="btn btn-perigo btn-pequeno">Excluir</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="vazio">Nenhum item de estoque cadastrado ainda.</div>
+    {% endif %}
+  </section>
+{% endblock %}

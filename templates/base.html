@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block titulo %}{% endblock %} · {{ loja.nome }}</title>
+  {% if midia.favicon %}<link rel="icon" href="{{ midia.favicon }}">{% endif %}
+  {# CSS único do site: static/css/style.css (seção [S02] = base.html) #}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+{# data-pagina: cada template define o seu nome em {% block pagina %}; o scripts.js usa isso para saber qual JS rodar #}
+<body data-pagina="{% block pagina %}geral{% endblock %}">
+
+  <header class="cabecalho">
+    <div class="cabecalho-interno">
+      <a class="marca" href="{{ url_for('inicio') }}">
+        {% if midia.logo %}<img class="marca-logo" src="{{ midia.logo }}" alt="{{ loja.nome }}">{% else %}Pet<span>House</span>{% endif %}
+      </a>
+
+      <nav class="nav-principal">
+        <a href="{{ url_for('produtos') }}">Produtos</a>
+        <a href="{{ url_for('ofertas') }}">Ofertas</a>
+        {% for c in categorias %}
+          <a href="{{ url_for('categoria', slug=c.slug) }}">{{ c.nome }}</a>
+        {% endfor %}
+        <a href="{{ url_for('fornecedores_publico') }}">Fornecedores</a>
+        <a href="{{ url_for('agendamento_novo') }}">Agendar serviço</a>
+        <a href="{{ url_for('feedback') }}">Feedback</a>
+        <a href="{{ url_for('contato') }}">Contato</a>
+      </nav>
+
+      <form class="busca-topo" action="{{ url_for('busca') }}" method="get">
+        <input type="search" name="q" placeholder="Buscar produto..." value="{{ request.args.get('q', '') }}">
+        <button type="submit" aria-label="Buscar">🔍</button>
+      </form>
+
+      <div class="nav-conta">
+        {% if cliente_logado %}
+          <a href="{{ url_for('cliente_perfil') }}">Olá, {{ cliente_logado.nome.split(' ')[0] }}</a>
+          <a href="{{ url_for('cliente_logout') }}">Sair</a>
+        {% else %}
+          <a href="{{ url_for('cliente_login') }}">Entrar</a>
+        {% endif %}
+        <a class="carrinho-link" href="{{ url_for('carrinho') }}">
+          🛒
+          {% if carrinho_qtd %}<span class="carrinho-badge">{{ carrinho_qtd }}</span>{% endif %}
+        </a>
+      </div>
+    </div>
+  </header>
+
+  {% with mensagens = get_flashed_messages(with_categories=true) %}
+    {% if mensagens %}
+      <div class="mensagens">
+        {% for categoria_msg, texto in mensagens %}
+          <div class="mensagem mensagem-{{ categoria_msg }}">{{ texto }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <main>
+    {% block conteudo %}{% endblock %}
+  </main>
+
+  <footer class="rodape">
+    <div class="wrap">
+      <div>
+        <strong>{{ loja.nome }}</strong><br>
+        {{ loja.slogan }}<br>
+        {{ loja.email }} · WhatsApp: {{ loja.whatsapp }}
+      </div>
+      <div>
+        <a href="{{ url_for('cliente_cadastro') }}">Criar conta</a> ·
+        <a href="{{ url_for('orcamento_solicitar') }}">Solicitar orçamento</a> ·
+        <a href="{{ url_for('fornecedores_publico') }}">Nossos fornecedores</a> ·
+        <a href="{{ url_for('contato') }}">Fale conosco</a> ·
+        <a href="{{ url_for('admin_painel') }}">Painel administrativo</a> ·
+        <a href="{{ url_for('apresentacao') }}">Apresentação do trabalho</a> ·
+        <a href="{{ url_for('documentacao') }}">Documentação</a>
+      </div>
+      <div>&copy; {{ ano }} {{ loja.nome }}. Todos os direitos reservados.</div>
+    </div>
+  </footer>
+
+  {# JS único do site: static/js/scripts.js #}
+  <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+Coloque aqui a foto de cada integrante do grupo (JPG ou PNG, quadrada, ~400x400 px).
+O nome do arquivo deve ser igual ao campo "foto" da lista EQUIPE no app.py.
+Exemplo: integrante-1.jpg, integrante-2.jpg ...
+Sem a foto, o site mostra um círculo com as iniciais do nome (nada quebra).

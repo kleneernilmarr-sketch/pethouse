@@ -1,0 +1,12 @@
+[
+  {
+    "cliente_id": 1,
+    "pet_id": 2,
+    "tipo": "Banho",
+    "data": "2026-09-26",
+    "hora": "22:00",
+    "status": "Agendado",
+    "observacoes": "Ele gosta de tomar banho só dado pela Jojo",
+    "id": 1
+  }
+]

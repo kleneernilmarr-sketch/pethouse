@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block titulo %}Finalizar compra{% endblock %}
+{% block pagina %}checkout{% endblock %}
+{% block conteudo %}
+  <section class="secao checkout-secao">
+    <h1>Finalizar compra</h1>
+
+    <div class="resumo-carrinho checkout-resumo">
+      {% for item in itens %}
+        <div class="resumo-linha"><span>{{ item.quantidade }}x {{ item.produto.nome }}</span><span>{{ item.subtotal | brl }}</span></div>
+      {% endfor %}
+      <div class="resumo-linha total"><span>Subtotal</span><span>{{ subtotal | brl }}</span></div>
+    </div>
+
+    <form method="post" class="form-caixa checkout-form">
+      <div class="campo">
+        <label for="endereco">Endereço de entrega</label>
+        <textarea id="endereco" name="endereco" required>{{ cliente.endereco or '' }}{% if cliente.cidade %}, {{ cliente.cidade }}/{{ cliente.estado }}{% endif %}{% if cliente.cep %} - CEP {{ cliente.cep }}{% endif %}</textarea>
+      </div>
+
+      <div class="campo">
+        <label for="transportadora_id">Transportadora</label>
+        <select id="transportadora_id" name="transportadora_id" required>
+          {% for t in transportadoras %}
+            <option value="{{ t.id }}">{{ t.nome }} · {{ t.prazo_medio_dias }} dias úteis · {{ t.valor_frete_base | brl }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="forma_pagamento">Forma de pagamento</label>
+        <select id="forma_pagamento" name="forma_pagamento" required>
+          <option value="Cartão de crédito">Cartão de crédito (em até {{ loja.parcelas }}x)</option>
+          <option value="Pix">Pix</option>
+          <option value="Boleto">Boleto</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-sol btn-bloco">Confirmar pedido</button>
+    </form>
+  </section>
+{% endblock %}

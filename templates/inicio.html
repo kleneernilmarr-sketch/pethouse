@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% from "_card.html" import card with context %}
+
+{% block titulo %}Início{% endblock %}
+{% block pagina %}inicio{% endblock %}
+
+{% block conteudo %}
+
+  {# ---------- Abertura ---------- #}
+  <section class="abertura">
+    <div class="abertura-texto">
+      <h1>{{ loja.slogan }}</h1>
+      <p>Acessórios, brinquedos e itens de higiene que deixam a rotina do seu cão ou gato mais confortável e divertida.</p>
+      <a class="btn btn-sol" href="{{ url_for('ofertas') }}">Ver ofertas</a>
+    </div>
+    <div class="abertura-lateral">
+      {# Foto: static/assets/imagens/site/ (nome em MIDIA_SITE["banner_inicio"] no app.py) #}
+      {% if midia.banner_inicio %}
+        <img class="abertura-banner" src="{{ midia.banner_inicio }}" alt="{{ loja.nome }}">
+      {% endif %}
+      <ul class="abertura-beneficios">
+        <li><span aria-hidden="true">🚚</span> Frete grátis acima de {{ loja.frete_gratis_acima | brl }}</li>
+        <li><span aria-hidden="true">📦</span> Entrega em {{ loja.prazo_entrega }}</li>
+        <li><span aria-hidden="true">💳</span> Em até {{ loja.parcelas }}x sem juros</li>
+      </ul>
+    </div>
+  </section>
+
+  {# ---------- Vídeo institucional ----------
+     Arquivo: static/assets/videos/site/ (nome em MIDIA_SITE["video_inicio"] no app.py).
+     A seção só aparece quando o arquivo existir. #}
+  {% if midia.video_inicio %}
+    <section class="secao inicio-video" aria-label="Vídeo institucional">
+      <video controls preload="metadata" playsinline{% if midia.video_inicio_capa %} poster="{{ midia.video_inicio_capa }}"{% endif %}>
+        <source src="{{ midia.video_inicio }}" type="video/mp4">
+        Seu navegador não suporta vídeo.
+      </video>
+    </section>
+  {% endif %}
+
+  {# ---------- Por que um petshop online ---------- #}
+  <section class="secao" aria-labelledby="titulo-importancia">
+    <div class="secao-cabecalho">
+      <h2 id="titulo-importancia">Por que comprar no PetHouse</h2>
+    </div>
+    <div class="categorias">
+      <div class="categoria inicio-motivo--1">
+        <span class="categoria-emoji" aria-hidden="true">🏠</span>
+        <span class="categoria-nome">Menos idas ao petshop</span>
+        <span class="categoria-qtd">Ração, areia e itens pesados chegam na sua porta, sem fila nem trânsito.</span>
+      </div>
+      <div class="categoria inicio-motivo--2">
+        <span class="categoria-emoji" aria-hidden="true">🩺</span>
+        <span class="categoria-nome">Produtos com procedência</span>
+        <span class="categoria-qtd">Só trabalhamos com fornecedores com especificação técnica e certificação.</span>
+      </div>
+      <div class="categoria inicio-motivo--3">
+        <span class="categoria-emoji" aria-hidden="true">📅</span>
+        <span class="categoria-nome">Agenda e histórico do pet</span>
+        <span class="categoria-qtd">Banho, tosa e consultas organizados em um perfil só do seu bichinho.</span>
+      </div>
+      <div class="categoria inicio-motivo--4">
+        <span class="categoria-emoji" aria-hidden="true">🎁</span>
+        <span class="categoria-nome">Fidelidade que vale a pena</span>
+        <span class="categoria-qtd">Cada compra vira pontos e desconto de verdade, não só promessa.</span>
+      </div>
+    </div>
+  </section>
+
+  {# ---------- Categorias ---------- #}
+  <section class="secao" aria-labelledby="titulo-categorias">
+    <div class="secao-cabecalho">
+      <h2 id="titulo-categorias">Compre por categoria</h2>
+    </div>
+    <div class="categorias">
+      {% for c in categorias %}
+        <a class="categoria" href="{{ url_for('categoria', slug=c.slug) }}" style="--cor: {{ c.cor }}">
+          <span class="categoria-emoji" aria-hidden="true">{{ c.emoji }}</span>
+          <span class="categoria-nome">{{ c.nome }}</span>
+          <span class="categoria-qtd">{{ contagem[c.slug] }} produto{{ 's' if contagem[c.slug] != 1 }}</span>
+        </a>
+      {% endfor %}
+    </div>
+  </section>
+
+  {# ---------- Produtos em destaque ---------- #}
+  <section class="secao" aria-labelledby="titulo-destaques">
+    <div class="secao-cabecalho">
+      <h2 id="titulo-destaques">Produtos em destaque</h2>
+      <a class="link-secao" href="{{ url_for('produtos') }}">Ver todos os produtos</a>
+    </div>
+    <div class="grade-produtos">
+      {% for p in destaques %}
+        {{ card(p) }}
+      {% endfor %}
+    </div>
+  </section>
+
+{% endblock %}

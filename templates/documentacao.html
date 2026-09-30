@@ -1,0 +1,65 @@
+{% extends "base_trabalho.html" %}
+{% block titulo %}Documentação{% endblock %}
+{% block pagina %}documentacao{% endblock %}
+
+{% block conteudo %}
+  <section class="secao trab-doc">
+    <h1>Documentação do projeto</h1>
+    <p>Resumo do que entregamos ao professor: como o projeto está organizado e qual hospedagem escolhemos. Os documentos completos estão na pasta <code>docs/</code>.</p>
+
+    {# ---------- 1. Estrutura ---------- #}
+    <h2>Estrutura do projeto</h2>
+    <p>O site usa <strong>Python + Flask</strong>. O Flask recebe o endereço digitado, busca os dados e monta a página HTML. Não há framework de front-end.</p>
+    <table class="doc-tabela">
+      <thead><tr><th>Arquivo ou pasta</th><th>Para que serve</th></tr></thead>
+      <tbody>
+        <tr><td><code>app.py</code></td><td>Endereços (rotas) do site, dados da loja, produtos e lista da equipe</td></tr>
+        <tr><td><code>data_store.py</code> e <code>data/</code></td><td>“Banco de dados” provisório em arquivos JSON (clientes, pets, pedidos, estoque...)</td></tr>
+        <tr><td><code>templates/</code></td><td>Páginas HTML: apresentação, documentação, loja, conta do cliente e painel admin</td></tr>
+        <tr><td><code>static/css/style.css</code></td><td>Todo o visual do site, em um único arquivo</td></tr>
+        <tr><td><code>static/js/scripts.js</code></td><td>Todo o JavaScript, em um único arquivo</td></tr>
+        <tr><td><code>static/assets/</code></td><td>Fotos e vídeos: produtos, fornecedores, pets e equipe</td></tr>
+        <tr><td><code>docs/</code></td><td>README, documentação completa e relatório de hospedagem e domínio</td></tr>
+      </tbody>
+    </table>
+
+    {# ---------- 2. Hospedagem ---------- #}
+    <h2>Hospedagem: comparação de valores</h2>
+    <p>O projeto precisa de uma hospedagem que rode Python, tenha disco que não seja apagado (por causa dos arquivos JSON) e ofereça HTTPS. Comparamos três opções pagas. Preços pesquisados em 29/09/2026, com dólar a R$ 5,50.</p>
+    <div class="doc-rolagem">
+      <table class="doc-tabela">
+        <thead>
+          <tr><th>Opção</th><th>Custo por mês</th><th>1º ano com domínio .com.br</th><th>Ponto forte</th><th>Ponto fraco</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>PythonAnywhere Developer</td><td>R$ 55,00</td><td>R$ 700,00</td><td>Muito simples de configurar; MySQL incluído</td><td>A mais cara das três e pouco flexível para crescer</td></tr>
+          <tr class="doc-escolhida"><td>Render Starter + disco de 1 GB</td><td>≈ R$ 39,88</td><td>≈ R$ 518,50</td><td>Publica direto do GitHub; HTTPS e domínio próprio incluídos</td><td>Cobrança em dólar; vídeos com muito acesso geram custo extra</td></tr>
+          <tr><td>Hostinger VPS KVM 1</td><td>R$ 29,99 (contrato de 24 meses)</td><td>R$ 399,88</td><td>Mais recursos por real; servidor em São Paulo</td><td>O preço dobra na renovação (R$ 59,99) e exige administrar o servidor</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Os planos gratuitos serviram só para teste: o Render Free apaga os arquivos JSON a cada reinício e o PythonAnywhere Free não aceita domínio próprio.</p>
+
+    <h3>Domínio</h3>
+    <p><strong>.com.br</strong> custa R$ 40,00 por ano no Registro.br, com valor fixo na renovação. O <strong>.com</strong> sai por ≈ R$ 57,53 e o <strong>.pet</strong> por ≈ R$ 111,10 por ano na Cloudflare.</p>
+
+    <div class="doc-destaque">
+      <h3>O que escolhemos e por quê</h3>
+      <p><strong>Render Starter com disco de 1 GB e domínio .com.br, cerca de R$ 518,50 no primeiro ano.</strong></p>
+      <ul>
+        <li>Custa cerca de R$ 180 a menos por ano que o PythonAnywhere Developer.</li>
+        <li>Não exige administrar um servidor, ao contrário da VPS, que só é mais barata enquanto vale o preço promocional.</li>
+        <li>O disco persistente de US$ 0,25 por mês resolve o maior risco do projeto atual: perder os arquivos JSON.</li>
+        <li>Quando o banco de dados for criado, o Postgres da própria plataforma o substitui, sem trocar de fornecedor.</li>
+        <li>O .com.br tem o menor custo, passa confiança ao consumidor brasileiro e não sobe na renovação.</li>
+      </ul>
+    </div>
+
+    <p class="doc-nota">Preços mudam com frequência e muitas ofertas valem só no primeiro período. Antes de contratar, confirme nos sites oficiais. O relatório completo, com fontes e checklist, está em <code>docs/ORCAMENTO_HOSPEDAGEM_DOMINIO.md</code>.</p>
+
+    <div class="trab-botoes">
+      <a class="btn btn-sol" href="{{ url_for('inicio') }}">Acessar Site</a>
+      <a class="btn btn-contorno" href="{{ url_for('apresentacao') }}">Voltar à apresentação</a>
+    </div>
+  </section>
+{% endblock %}

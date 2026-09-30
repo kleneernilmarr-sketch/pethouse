@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block titulo %}Feedback dos clientes{% endblock %}
+{% block pagina %}feedback{% endblock %}
+{% block conteudo %}
+  <section class="secao">
+    <h1>O que dizem sobre o PetHouse</h1>
+    {% if media %}
+      <p class="feedback-media">⭐ {{ media }} de 5 · {{ feedbacks | length }} avaliação{{ 'ões' if feedbacks | length != 1 }}</p>
+    {% endif %}
+
+    {% if feedbacks %}
+      <div class="categorias feedback-lista">
+        {% for f in feedbacks %}
+          <div class="painel-card">
+            <div>{{ '⭐' * f.nota }}{{ '☆' * (5 - f.nota) }}</div>
+            <p class="feedback-mensagem">“{{ f.mensagem }}”</p>
+            <strong class="feedback-autor">{{ f.nome }}</strong>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="feedback-vazio">Ainda não temos feedbacks publicados. Seja o primeiro a avaliar!</p>
+    {% endif %}
+
+    <div class="form-caixa feedback-form">
+      <h2>Deixe seu feedback</h2>
+      <form method="post">
+        {% if not cliente %}
+          <div class="campo">
+            <label for="nome">Seu nome</label>
+            <input type="text" id="nome" name="nome" placeholder="Como podemos te chamar?">
+          </div>
+        {% endif %}
+        <div class="campo">
+          <label>Nota</label>
+          <div class="feedback-notas">
+            {% for n in range(5, 0, -1) %}
+              <label class="feedback-nota-opcao">
+                <input type="radio" name="nota" value="{{ n }}" {% if n == 5 %}checked{% endif %}>
+                {{ n }}⭐
+              </label>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="campo">
+          <label for="mensagem">Mensagem</label>
+          <textarea id="mensagem" name="mensagem" required placeholder="Conte como foi sua experiência"></textarea>
+        </div>
+        <button type="submit" class="btn btn-sol btn-bloco">Enviar feedback</button>
+      </form>
+    </div>
+  </section>
+{% endblock %}

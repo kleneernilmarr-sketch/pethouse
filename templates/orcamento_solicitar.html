@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block titulo %}Solicitar atendimento{% endblock %}
+{% block pagina %}orcamento-solicitar{% endblock %}
+{% block conteudo %}
+  <section class="secao form-caixa">
+    <h1>Solicitar atendimento personalizado</h1>
+    <p class="orcamento-intro">
+      Precisa de um orçamento sob medida, tem uma dúvida específica ou quer resolver algo com a loja?
+      Abra um ticket e nossa equipe responde por aqui mesmo.
+    </p>
+    <form method="post">
+      {% if not cliente %}
+        <div class="linha-formulario">
+          <div class="campo">
+            <label for="nome">Seu nome</label>
+            <input type="text" id="nome" name="nome" required>
+          </div>
+          <div class="campo">
+            <label for="contato">Telefone ou e-mail</label>
+            <input type="text" id="contato" name="contato" required>
+          </div>
+        </div>
+      {% endif %}
+      <div class="campo">
+        <label for="assunto">Assunto</label>
+        <input type="text" id="assunto" name="assunto" placeholder="Ex.: Orçamento para kit de banho e tosa" required>
+      </div>
+      <div class="campo">
+        <label for="mensagem">Mensagem</label>
+        <textarea id="mensagem" name="mensagem" required placeholder="Conte os detalhes do que você precisa"></textarea>
+      </div>
+      <button type="submit" class="btn btn-sol btn-bloco">Enviar ticket</button>
+    </form>
+    {% if cliente %}
+      <p class="orcamento-nota">
+        Acompanhe suas respostas em <a href="{{ url_for('cliente_perfil') }}">Minha conta</a>.
+      </p>
+    {% endif %}
+  </section>
+{% endblock %}

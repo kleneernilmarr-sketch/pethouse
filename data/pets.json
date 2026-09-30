@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "cliente_id": null,
+    "nome": "Thor",
+    "especie": "Cachorro",
+    "raca": "Labrador",
+    "porte": "Grande",
+    "data_nascimento": "2022-03-10",
+    "observacoes": "Alérgico a frango"
+  },
+  {
+    "cliente_id": 1,
+    "nome": "Mel",
+    "especie": "Cachorro",
+    "raca": "SRD",
+    "porte": "Médio",
+    "data_nascimento": "2018-08-12",
+    "observacoes": "Ela tem ódio de gato.",
+    "id": 2
+  }
+]

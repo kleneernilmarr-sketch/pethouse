@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block titulo %}Feedbacks{% endblock %}
+{% block pagina %}admin-feedbacks{% endblock %}
+{% block conteudo %}
+  <section class="secao">
+    <h1>Feedbacks</h1>
+    <p><a class="link-secao" href="{{ url_for('admin_painel') }}">← Voltar ao painel</a></p>
+
+    <h2>Pendentes de moderação</h2>
+    {% if pendentes %}
+      {% for f in pendentes %}
+        <div class="linha-carrinho feedbacks-item">
+          <div class="feedbacks-item-topo">
+            <strong>{{ f.nome }} · {{ '⭐' * f.nota }}</strong>
+            <span class="feedbacks-item-data">{{ f.data }}</span>
+          </div>
+          <p class="feedbacks-item-msg">{{ f.mensagem }}</p>
+          <div class="feedbacks-item-acoes">
+            <form action="{{ url_for('admin_feedback_aprovar', id=f.id) }}" method="post">
+              <button type="submit" class="btn btn-folha btn-pequeno">Aprovar e publicar</button>
+            </form>
+            <form action="{{ url_for('admin_feedback_excluir', id=f.id) }}" method="post"
+                  data-confirmar="Excluir este feedback?">
+              <button type="submit" class="btn btn-perigo btn-pequeno">Excluir</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>Nenhum feedback pendente.</p>
+    {% endif %}
+
+    <h2 class="feedbacks-titulo-publicados">Publicados</h2>
+    {% if aprovados %}
+      <table class="tabela-admin">
+        <thead><tr><th>Nome</th><th>Nota</th><th>Mensagem</th><th>Data</th><th></th></tr></thead>
+        <tbody>
+          {% for f in aprovados %}
+            <tr>
+              <td>{{ f.nome }}</td>
+              <td>{{ f.nota }}⭐</td>
+              <td>{{ f.mensagem }}</td>
+              <td>{{ f.data }}</td>
+              <td>
+                <form action="{{ url_for('admin_feedback_excluir', id=f.id) }}" method="post"
+                      data-confirmar="Excluir este feedback?">
+                  <button type="submit" class="btn btn-perigo btn-pequeno">Excluir</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>Nenhum feedback publicado ainda.</p>
+    {% endif %}
+  </section>
+{% endblock %}

@@ -1,0 +1,3 @@
+Fotos/logos dos fornecedores (ideal 600x360).
+Nome padrão: fornecedor-<id>.jpg (ex.: fornecedor-1.jpg)
+Ou digite outro nome no campo 'Foto / logo' em /admin/fornecedores.

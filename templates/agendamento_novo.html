@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block titulo %}Agendar serviço{% endblock %}
+{% block pagina %}agendamento-novo{% endblock %}
+{% block conteudo %}
+  <section class="secao form-caixa">
+    <h1>Agendar serviço</h1>
+    <p class="agendamento-intro">Banho, tosa, consulta veterinária ou entrega agendada — escolha o pet e o horário.</p>
+
+    {% if not pets %}
+      <p>Você ainda não tem pets cadastrados. <a href="{{ url_for('cliente_pet_novo') }}">Cadastre um pet</a> antes de agendar.</p>
+    {% else %}
+      <form method="post">
+        <div class="campo">
+          <label for="pet_id">Pet</label>
+          <select id="pet_id" name="pet_id" required>
+            {% for p in pets %}
+              <option value="{{ p.id }}">{{ p.nome }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="campo">
+          <label for="tipo">Serviço</label>
+          <select id="tipo" name="tipo" required>
+            <option value="Banho">Banho</option>
+            <option value="Tosa">Tosa</option>
+            <option value="Consulta veterinária">Consulta veterinária</option>
+            <option value="Entrega">Entrega</option>
+            <option value="Outro">Outro</option>
+          </select>
+        </div>
+        <div class="linha-formulario">
+          <div class="campo">
+            <label for="data">Data</label>
+            <input type="date" id="data" name="data" required>
+          </div>
+          <div class="campo">
+            <label for="hora">Hora</label>
+            <input type="time" id="hora" name="hora">
+          </div>
+        </div>
+        <div class="campo">
+          <label for="observacoes">Observações</label>
+          <textarea id="observacoes" name="observacoes" placeholder="Alguma preferência ou cuidado especial?"></textarea>
+        </div>
+        <button type="submit" class="btn btn-sol btn-bloco">Solicitar agendamento</button>
+      </form>
+    {% endif %}
+  </section>
+{% endblock %}

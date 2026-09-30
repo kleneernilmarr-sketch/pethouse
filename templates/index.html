@@ -1,0 +1,97 @@
+{% extends "base_trabalho.html" %}
+{% block titulo %}Apresentação do trabalho{% endblock %}
+{% block pagina %}index{% endblock %}
+
+{% block conteudo %}
+
+  {# ---------- Abertura: título, resumo e os dois botões ---------- #}
+  <section class="trab-abertura">
+    <div class="trab-abertura-texto">
+      <h1>{{ loja.nome }}, a loja online para cães e gatos</h1>
+      <p>Trabalho acadêmico de uma loja de produtos pet feita em Python e Flask. O cliente compra, cadastra o pet, agenda banho e tosa e junta pontos de fidelidade; a equipe da loja cuida de tudo por um painel administrativo.</p>
+      <div class="trab-botoes">
+        <a class="btn btn-sol btn-grande" href="{{ url_for('inicio') }}">Acessar Site</a>
+        <a class="btn btn-contorno btn-grande" href="{{ url_for('documentacao') }}">Documentação</a>
+      </div>
+    </div>
+
+    {# Etiqueta de coleira com os dados do trabalho (edite em TRABALHO no app.py) #}
+    <aside class="trab-etiqueta" aria-label="Dados do trabalho">
+      <span class="trab-etiqueta-argola" aria-hidden="true"></span>
+      <div class="trab-etiqueta-corpo">
+        <span class="trab-etiqueta-emoji" aria-hidden="true">🐾</span>
+        <strong>{{ loja.nome }}</strong>
+        <dl>
+          <dt>Disciplina</dt><dd>{{ trabalho.disciplina }}</dd>
+          <dt>Professor(a)</dt><dd>{{ trabalho.professor }}</dd>
+          <dt>Curso</dt><dd>{{ trabalho.curso }}</dd>
+          <dt>Turma</dt><dd>{{ trabalho.turma }}</dd>
+        </dl>
+      </div>
+    </aside>
+  </section>
+
+  {# ---------- O que o site faz ---------- #}
+  <section class="secao" aria-labelledby="titulo-recursos">
+    <div class="secao-cabecalho">
+      <h2 id="titulo-recursos">O que o site faz</h2>
+    </div>
+    <div class="trab-recursos">
+      <div class="categoria">
+        <span class="categoria-emoji" aria-hidden="true">🛍️</span>
+        <span class="categoria-nome">Catálogo de produtos</span>
+        <span class="categoria-qtd">12 produtos em 6 categorias, com página de ofertas e busca por nome.</span>
+      </div>
+      <div class="categoria">
+        <span class="categoria-emoji" aria-hidden="true">🛒</span>
+        <span class="categoria-nome">Carrinho e compra</span>
+        <span class="categoria-qtd">O cliente monta o carrinho, escolhe a transportadora e a forma de pagamento e finaliza o pedido.</span>
+      </div>
+      <div class="categoria">
+        <span class="categoria-emoji" aria-hidden="true">🐶</span>
+        <span class="categoria-nome">Conta e perfil do pet</span>
+        <span class="categoria-qtd">Cadastro e login. Em “Minha conta” ficam os pedidos e cada pet tem seu perfil.</span>
+      </div>
+      <div class="categoria">
+        <span class="categoria-emoji" aria-hidden="true">📅</span>
+        <span class="categoria-nome">Agendamento de serviços</span>
+        <span class="categoria-qtd">Marca banho, tosa, consulta veterinária ou entrega para um pet cadastrado.</span>
+      </div>
+      <div class="categoria">
+        <span class="categoria-emoji" aria-hidden="true">🎁</span>
+        <span class="categoria-nome">Programa de fidelidade</span>
+        <span class="categoria-qtd">Cada R$ 1 em compras vale 1 ponto. Os pontos levam aos níveis Bronze, Prata e Ouro.</span>
+      </div>
+      <div class="categoria">
+        <span class="categoria-emoji" aria-hidden="true">💬</span>
+        <span class="categoria-nome">Orçamento e feedback</span>
+        <span class="categoria-qtd">O visitante abre um pedido de orçamento personalizado e deixa sua avaliação, que a equipe aprova antes de publicar.</span>
+      </div>
+      <div class="categoria">
+        <span class="categoria-emoji" aria-hidden="true">🚚</span>
+        <span class="categoria-nome">Fornecedores</span>
+        <span class="categoria-qtd">Mostra de onde vêm os produtos. A loja funciona no modelo drop shipping, sem estoque próprio.</span>
+      </div>
+      <div class="categoria">
+        <span class="categoria-emoji" aria-hidden="true">📇</span>
+        <span class="categoria-nome">Contato e equipe</span>
+        <span class="categoria-qtd">WhatsApp, e-mail, mapa e a apresentação dos integrantes do grupo.</span>
+      </div>
+      <div class="categoria">
+        <span class="categoria-emoji" aria-hidden="true">🧰</span>
+        <span class="categoria-nome">Painel administrativo</span>
+        <span class="categoria-qtd">Cadastra e edita clientes, pets, estoque, fornecedores, transportadoras, agendamentos, orçamentos e feedbacks.</span>
+      </div>
+    </div>
+  </section>
+
+  {# ---------- Como foi feito + botões de novo (para quem rolou a página) ---------- #}
+  <section class="secao trab-fechamento">
+    <p>Feito com <strong>Python 3</strong>, <strong>Flask</strong>, HTML, CSS e JavaScript. Os dados ficam em arquivos JSON, que serão trocados por um banco de dados.</p>
+    <div class="trab-botoes">
+      <a class="btn btn-sol btn-grande" href="{{ url_for('inicio') }}">Acessar Site</a>
+      <a class="btn btn-contorno btn-grande" href="{{ url_for('documentacao') }}">Documentação</a>
+    </div>
+  </section>
+
+{% endblock %}

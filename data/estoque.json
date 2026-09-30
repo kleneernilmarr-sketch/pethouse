@@ -1,0 +1,5 @@
+[
+  {"id": 1, "produto_id": 1, "quantidade": 42, "quantidade_minima": 10, "localizacao": "Depósito A - Prateleira 3", "ultima_atualizacao": "2026-09-01"},
+  {"id": 2, "produto_id": 2, "quantidade": 15, "quantidade_minima": 5, "localizacao": "Depósito A - Prateleira 5", "ultima_atualizacao": "2026-09-01"},
+  {"id": 3, "produto_id": 3, "quantidade": 6, "quantidade_minima": 8, "localizacao": "Depósito B - Prateleira 1", "ultima_atualizacao": "2026-09-01"}
+]

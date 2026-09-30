@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block titulo %}Cadastrar pet{% endblock %}
+{% block pagina %}cliente-pet-novo{% endblock %}
+{% block conteudo %}
+  <section class="secao form-caixa">
+    <h1>Cadastrar pet</h1>
+    <form method="post">
+      <div class="campo">
+        <label for="nome">Nome do pet</label>
+        <input type="text" id="nome" name="nome" required>
+      </div>
+      <div class="linha-formulario">
+        <div class="campo">
+          <label for="especie">Espécie</label>
+          <select id="especie" name="especie">
+            <option value="Cachorro">Cachorro</option>
+            <option value="Gato">Gato</option>
+            <option value="Outro">Outro</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="porte">Porte</label>
+          <select id="porte" name="porte">
+            <option value="Pequeno">Pequeno</option>
+            <option value="Médio">Médio</option>
+            <option value="Grande">Grande</option>
+          </select>
+        </div>
+      </div>
+      <div class="linha-formulario">
+        <div class="campo">
+          <label for="raca">Raça</label>
+          <input type="text" id="raca" name="raca">
+        </div>
+        <div class="campo">
+          <label for="data_nascimento">Data de nascimento</label>
+          <input type="date" id="data_nascimento" name="data_nascimento">
+        </div>
+      </div>
+      <div class="campo">
+        <label for="observacoes">Observações (alergias, cuidados...)</label>
+        <textarea id="observacoes" name="observacoes"></textarea>
+      </div>
+      <button type="submit" class="btn btn-sol btn-bloco">Cadastrar</button>
+    </form>
+  </section>
+{% endblock %}

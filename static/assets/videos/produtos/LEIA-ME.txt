@@ -1,0 +1,3 @@
+Vídeos dos produtos em .mp4 (H.264, 720p, até ~15 MB cada).
+Nomes padrão: produto-01.mp4 ... produto-12.mp4
+Os nomes são definidos em MIDIA_PRODUTOS no app.py.
