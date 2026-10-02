@@ -43,11 +43,11 @@ LOJA = {
 # Troque os textos abaixo pelos dados reais do grupo.
 # ---------------------------------------------------------------------------
 TRABALHO = {
-    "instituicao": "Nome da instituição",
-    "curso": "Nome do curso",
-    "disciplina": "Nome da disciplina",
-    "professor": "Nome do(a) professor(a)",
-    "turma": "Turma / semestre",
+    "instituicao": "Universidade Cidade de São Paulo",
+    "curso": "Engenharia de Software",
+    "disciplina": "Modelagem de Banco de Dados",
+    "professor": "Clovis Jose Ramos Ferraro",
+    "turma": "Grupo 7 / 2º Semestre",
 }
 
 # ---------------------------------------------------------------------------
